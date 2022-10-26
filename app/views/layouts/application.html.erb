@@ -16,6 +16,19 @@
 
   <body>
     <ul>
+      <!-- conditional for user sessions/remdering links -->
+      <% if session.fetch(:user_id) == nil %>
+      <li>
+        <a href="/user_sign_up">User Sign Up</a>
+      </li>
+      <li>
+        <a href="/user_sign_in">User Sign In</a>
+      </li>
+      <% else %>
+      <li>
+        <a href="/user_sign_out">User Sign Out</a>
+      </li>
+      <% end %>
       <li>
         <a href="/movies">Movies</a>
       </li>
@@ -29,6 +42,8 @@
         <a href="/characters">Characters</a>
       </li>
     </ul>
+    <p style="color: green"><%= notice %></p> <!-- notice and alert showing in all the pages -->
+    <p style="color: red"><%= alert %></p>
     <%= yield %>
   </body>
 </html>
