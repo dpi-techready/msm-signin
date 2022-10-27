@@ -7,28 +7,32 @@
       Movie #<%= @the_movie.id %> details
     </h1>
 
-    <!-- fetch and store bookmarks for the current user -->
-    <% current_user_bookmarks = Bookmark.where({ :movie_id => @the_movie.id, :user_id => session.fetch(:user_id) })%>
+    <!-- conditional for bookmark button>-->
+    <% if @current_user != nil %>
+      <!-- fetch and store bookmarks for the current user -->
+          <% current_user_bookmarks = @current_user.bookmarks.where({ :movie_id => @the_movie.id })%>
+      <!--<% current_user_bookmarks = Bookmark.where({ :movie_id => @the_movie.id, :user_id => session.fetch(:user_id) })%>-->
 
-    <% the_bookmark = current_user_bookmarks.at(0) %>
+      <% the_bookmark = current_user_bookmarks.at(0) %>
 
-    <!-- check with a conditional if this movie has a bookmark by this user. If 0 show bookmark form -->
-      <% if the_bookmark == nil %>
-      <%# if current_user_bookmarks.count == 0 %>
-      <!-- hidde form using the generated route instead with the post method -->
-      <form action="/insert_bookmark" method="post">
+      <!-- check with a conditional if this movie has a bookmark by this user. If 0 show bookmark form -->
+        <% if the_bookmark == nil %>
+        <%# if current_user_bookmarks.count == 0 %>
+        <!-- hidde form using the generated route instead with the post method -->
+        <form action="/insert_bookmark" method="post">
 
-      <!-- set session fetching in create method under controller(bookmarks) instead -->
-      <!--<input type="hidden" name="query_user_id" value="<%= session.fetch(:user_id) %>">-->
+        <!-- set session fetching in create method under controller(bookmarks) instead -->
+        <!--<input type="hidden" name="query_user_id" value="<%= session.fetch(:user_id) %>">-->
 
-      <input type="hidden" name="query_movie_id" value="<%= @the_movie.id %>">
+        <input type="hidden" name="query_movie_id" value="<%= @the_movie.id %>">
 
-      <button>Bookmark this movie</button>
-    </form>
-    <% else %>  
-      <a href="/delete_bookmark/<%= the_bookmark.id %>">
-      Un-bookmark
-      </a>
+        <button>Bookmark this movie</button>
+      </form>
+      <% else %>  
+        <a href="/delete_bookmark/<%= the_bookmark.id %>">
+        Un-bookmark
+        </a>
+      <% end %>
     <% end %>
 
     <!--<form action="/add_bookmark">
